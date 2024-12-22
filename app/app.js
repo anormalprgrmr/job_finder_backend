@@ -3,13 +3,13 @@ const connectDB = require('./config/db');
 // const jobRoutes = require('./routes/jobRoutes');
 const {getAllJobs} = require('./controllers/job.controller')
 require('dotenv').config();
+const { swaggerUi, swaggerSpec } = require('./config/swagger');
 
 const jobRoutes = require('./routes/job.route');
 
 const app = express();
 app.use(express.json());
-
-// Database Connection
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 connectDB();
 
 app.use('/job', jobRoutes);
