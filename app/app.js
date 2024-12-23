@@ -6,6 +6,7 @@ require('dotenv').config();
 const { swaggerUi, swaggerSpec } = require('./config/swagger');
 
 const jobRoutes = require('./routes/job.route');
+const authRoutes = require('./routes/auth.route');
 
 const app = express();
 app.use(express.json());
@@ -13,6 +14,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 connectDB();
 
 app.use('/job', jobRoutes);
+app.use('/auth',authRoutes)
 // Routes
 // app.use('/api/jobs', jobRoutes);
 
