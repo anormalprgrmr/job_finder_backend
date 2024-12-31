@@ -1,31 +1,41 @@
 const mongoose = require('mongoose');
 
-const UserSchema = new mongoose.Schema({
+const CompanySchema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, 'Name is required'],
-        trim: true,
+        required: [true, 'Company name is required'],
+        trim: true
     },
-    email: {
+    description: {
         type: String,
-        required: [true, 'Email is required'],
-        unique: true,
-        lowercase: true,
-        match: [/\S+@\S+\.\S+/, 'Please use a valid email address'],
+        trim: true
     },
-    password: {
+    location: {
         type: String,
-        required: [true, 'Password is required'],
-        minlength: 6,
+        trim: true
     },
-    role: {
+    website: {
         type: String,
-        enum: ['user', 'company'],
-        default: 'user',
+        trim: true
+    },
+    industry: {
+        type: String,
+        required: [true, 'Industry is required'],
+        trim: true
+    },
+    size: {
+        type: String,
+        enum: ['Small', 'Medium', 'Large'],
+        default: 'Small'
+    },
+    jobs: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Job'
+    }],
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
-}, {
-    timestamps: true, // Adds createdAt and updatedAt fields
 });
 
-// Create User Model
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('Company', CompanySchema);
