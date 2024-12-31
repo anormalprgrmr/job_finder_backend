@@ -6,8 +6,9 @@ const createJob = async (body) => {
         company: body.company,
         location: body.location,
         salary: body.salary,
+        description: body.description,
         requirements: body.requirements,
-        postedBy: "madaret"
+        postedBy: body.postedBy
     });
 
     if (!newJob) {

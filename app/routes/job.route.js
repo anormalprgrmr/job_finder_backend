@@ -72,15 +72,15 @@ const {
 
 // Define Routes
 router.get('/', getAllJobsController);  // Get all jobs
-router.post('/jobs/create', createJobController);  // Create a new job
-router.get('/jobs/:id', getJobByIdController);  // Get a job by ID
-router.put('/jobs/:id', updateJobController);  // Update a job by ID
-router.delete('/jobs/:id', deleteJobController);  // Delete a job by ID
-router.get('/jobs/search', searchJobsController);  // Search jobs by criteria
-router.get('/jobs/pagination', getJobsWithPaginationController);  // Paginate jobs
-router.get('/jobs/postedBy/:postedBy', getJobsByPostedByController);  // Get jobs by postedBy user
-router.get('/jobs/salary', getJobsBySalaryRangeController);  // Get jobs by salary range
-router.get('/jobs/location/:location', getJobsByLocationController);  // Get jobs by location
+router.post('/create', createJobController);  // Create a new job
+router.get('/:id', getJobByIdController);  // Get a job by ID
+router.put('/:id', updateJobController);  // Update a job by ID
+router.delete('/:id', deleteJobController);  // Delete a job by ID
+router.get('/search', searchJobsController);  // Search jobs by criteria
+router.get('/pagination', getJobsWithPaginationController);  // Paginate jobs
+router.get('/postedBy/:postedBy', getJobsByPostedByController);  // Get jobs by postedBy user
+router.get('/salary', getJobsBySalaryRangeController);  // Get jobs by salary range
+router.get('/location/:location', getJobsByLocationController);  // Get jobs by location
 
 /**
  * @swagger
