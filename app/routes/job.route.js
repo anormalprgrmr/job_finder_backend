@@ -71,7 +71,7 @@ const {
  */
 
 // Define Routes
-router.get('/jobs', getAllJobsController);  // Get all jobs
+router.get('/', getAllJobsController);  // Get all jobs
 router.post('/jobs/create', createJobController);  // Create a new job
 router.get('/jobs/:id', getJobByIdController);  // Get a job by ID
 router.put('/jobs/:id', updateJobController);  // Update a job by ID
