@@ -28,14 +28,14 @@ const signup = async (name, email, password) => {
 
   // Generate JWT token
   const token = jwt.sign(
-    { userId: newUser._id, email },
+    { userId: newUser._id, email: newUser.email ,role : newUser.role },
     process.env.JWT_SECRET,
     { expiresIn: "1h" }
   );
 
   return {
     token,
-    user: { id: newUser._id, name: newUser.name, email: newUser.email },
+    user: { id: newUser._id, name: newUser.name, email: newUser.email ,role:newUser.role},
   };
 };
 
@@ -54,12 +54,12 @@ const login = async (email, password) => {
 
   // Generate JWT token
   const token = jwt.sign(
-    { userId: user._id, email: user.email },
+    { userId: user._id, email: user.email ,role : user.role },
     process.env.JWT_SECRET,
     { expiresIn: "1h" }
   );
 
-  return { token, user: { id: user._id, name: user.name, email: user.email } };
+  return { token, user: { id: user._id, name: user.name, email: user.email ,role : user.role } };
 };
 
 module.exports = { signup, verifyToken, login };
