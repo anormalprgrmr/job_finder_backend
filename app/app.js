@@ -8,6 +8,7 @@ const { swaggerUi, swaggerSpec } = require('./config/swagger');
 const jobRoutes = require('./routes/job.route');
 const authRoutes = require('./routes/auth.route');
 const compRoutes = require('./routes/company.route');
+const reqRoutes = require('./routes/request.route');
 
 
 const app = express();
@@ -18,6 +19,7 @@ connectDB();
 app.use('/job', jobRoutes);
 app.use('/auth',authRoutes)
 app.use('/company',compRoutes)
+app.use('/request',reqRoutes)
 // Routes
 // app.use('/api/jobs', jobRoutes);
 

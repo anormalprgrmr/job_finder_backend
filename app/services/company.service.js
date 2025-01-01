@@ -20,10 +20,17 @@ const deleteCompany = async (id) => {
     return await Company.findByIdAndDelete(id);
 };
 
+const addJob = async (companyId, jobId) => {
+    return await Company.findByIdAndUpdate(
+        companyId,
+        { $addToSet: { jobs: jobId } }, // Using $addToSet to avoid duplicates
+        { new: true, runValidators: true }
+    );}
 module.exports = {
     createCompany,
     getAllCompanies,
     getCompanyById,
     updateCompany,
-    deleteCompany
+    deleteCompany,
+    addJob
 };
