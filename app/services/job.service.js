@@ -1,4 +1,5 @@
 const Job = require("../models/job.model");
+const companyService = require('../services/company.service');
 
 const createJob = async (body) => {
     const newJob = await Job.create({
@@ -10,12 +11,21 @@ const createJob = async (body) => {
         requirements: body.requirements,
         postedBy: body.postedBy
     });
+    
 
     if (!newJob) {
         return { status: 0, message: 'Job creation failed' };
     }
+    console.log(newJob._id);
 
-    return { status: 1, message: 'Job created successfully' };
+    
+    const company = await companyService.addJob(body.postedBy,newJob._id)
+
+    if(!company){
+        return { status: 0, message: 'job addition failed' };
+    }
+    return { status: 1, message: 'Job created and added successfully' };
+
 }
 
 const getAllJobs = async () => {
