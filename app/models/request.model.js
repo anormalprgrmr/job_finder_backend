@@ -1,37 +1,14 @@
 const mongoose = require('mongoose');
 
 const RequestSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: [true, 'Company name is required'],
-        trim: true
-    },
-    description: {
-        type: String,
-        trim: true
-    },
-    location: {
-        type: String,
-        trim: true
-    },
-    website: {
-        type: String,
-        trim: true
-    },
-    industry: {
-        type: String,
-        required: [true, 'Industry is required'],
-        trim: true
-    },
-    size: {
-        type: String,
-        enum: ['Small', 'Medium', 'Large'],
-        default: 'Small'
-    },
-    jobs: [{
+    job_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Job'
-    }],
+    },
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     createdAt: {
         type: Date,
         default: Date.now
