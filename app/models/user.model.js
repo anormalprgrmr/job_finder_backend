@@ -18,11 +18,11 @@ const UserSchema = new mongoose.Schema({
         required: [true, 'Password is required'],
         minlength: 6,
     },
-    role: {
-        type: String,
-        enum: ['user', 'company'],
-        default: 'user',
-    }
+    // role: {
+    //     type: String,
+    //     enum: ['user', 'company'],
+    //     default: 'user',
+    // }
 }, {
     timestamps: true, // Adds createdAt and updatedAt fields
 });
