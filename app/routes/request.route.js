@@ -4,6 +4,7 @@ const {
     getAllRequestsController, 
     createRequestController, 
 } = require('./../controllers/request.controller');
+const authMiddleware = require('../middlewares/auth.middleware');
 
 /**
  * @swagger
@@ -64,7 +65,7 @@ const {
 
 // Define Routes
 router.get('/', getAllRequestsController);  // Get all jobs
-router.post('/create', createRequestController);  // Create a new job
+router.post('/create',authMiddleware, createRequestController);  // Create a new job
 
 /**
  * @swagger

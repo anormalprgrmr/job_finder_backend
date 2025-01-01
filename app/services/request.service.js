@@ -13,6 +13,31 @@ const createRequest = async (body) => {
     return { status: 1, message: 'Request created successfully', request: newRequest };
 };
 
+const getonejobRequests = async () => {
+    const requests = await Request.find().populate('job_id'); // Populate to get job and user details
+    if (!requests || requests.length === 0) {
+        return { status: 0, message: 'No requests found' };
+    }
+    return { status: 1, message: 'Requests fetched successfully', requests };
+};
+
+const getuserRequests = async () => {
+    const requests = await Request.find().populate('user_id'); // Populate to get job and user details
+    if (!requests || requests.length === 0) {
+        return { status: 0, message: 'No requests found' };
+    }
+    return { status: 1, message: 'Requests fetched successfully', requests };
+};
+
+//fix it
+const getcompanyRequests = async () => {
+    const requests = await Request.find().populate('user_id'); // Populate to get job and user details
+    if (!requests || requests.length === 0) {
+        return { status: 0, message: 'No requests found' };
+    }
+    return { status: 1, message: 'Requests fetched successfully', requests };
+};
+
 const getAllRequests = async () => {
     const requests = await Request.find().populate('job_id').populate('user_id'); // Populate to get job and user details
     if (!requests || requests.length === 0) {
