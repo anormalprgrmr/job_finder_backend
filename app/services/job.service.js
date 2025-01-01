@@ -4,7 +4,6 @@ const companyService = require('../services/company.service');
 const createJob = async (body) => {
     const newJob = await Job.create({
         title: body.title,
-        company: body.company,
         location: body.location,
         salary: body.salary,
         description: body.description,

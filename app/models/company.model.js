@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
 const CompanySchema = new mongoose.Schema({
-    status: {
-        type: String,
-        required: [true, 'Company name is required'],
-        trim: true
-    },
     name: {
         type: String,
         required: [true, 'Company name is required'],
