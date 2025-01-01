@@ -5,6 +5,8 @@ const User = require("./../models/user.model");
 const verifyToken = (token) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log('decoded jwt : ',decoded);
+    
     return { valid: true, decoded };
   } catch (error) {
     return { valid: false, error: error.message };
