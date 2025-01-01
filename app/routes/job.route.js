@@ -12,7 +12,7 @@ const {
     getJobsBySalaryRangeController, 
     getJobsByLocationController 
 } = require('./../controllers/job.controller');
-const authcompanyMiddleware = require('../middlewares/auth.middleware');
+const authMiddleware = require('../middlewares/auth.middleware');
 
 /**
  * @swagger
@@ -72,16 +72,16 @@ const authcompanyMiddleware = require('../middlewares/auth.middleware');
  */
 
 // Define Routes
-router.get('/', getAllJobsController);  // Get all jobs
-router.post('/create',authcompanyMiddleware, createJobController);  // Create a new job
-router.get('/:id', getJobByIdController);  // Get a job by ID
-router.put('/:id',authcompanyMiddleware, updateJobController);  // Update a job by ID
-router.delete('/:id',authcompanyMiddleware, deleteJobController);  // Delete a job by ID
-router.get('/search', searchJobsController);  // Search jobs by criteria
-router.get('/pagination', getJobsWithPaginationController);  // Paginate jobs
-router.get('/postedBy/:postedBy', getJobsByPostedByController);  // Get jobs by postedBy user
-router.get('/salary', getJobsBySalaryRangeController);  // Get jobs by salary range
-router.get('/location/:location', getJobsByLocationController);  // Get jobs by location
+router.get('/',authMiddleware, getAllJobsController);  // Get all jobs
+router.post('/create', createJobController);  // Create a new job
+router.get('/:id',authMiddleware, getJobByIdController);  // Get a job by ID
+router.put('/:id', updateJobController);  // Update a job by ID
+router.delete('/:id', deleteJobController);  // Delete a job by ID
+router.get('/search',authMiddleware, searchJobsController);  // Search jobs by criteria
+router.get('/pagination', authMiddleware,getJobsWithPaginationController);  // Paginate jobs
+router.get('/postedBy/:postedBy',authMiddleware, getJobsByPostedByController);  // Get jobs by postedBy user
+router.get('/salary',authMiddleware, getJobsBySalaryRangeController);  // Get jobs by salary range
+router.get('/location/:location',authMiddleware, getJobsByLocationController);  // Get jobs by location
 
 /**
  * @swagger

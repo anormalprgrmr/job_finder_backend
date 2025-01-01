@@ -64,7 +64,7 @@ const authMiddleware = require('../middlewares/auth.middleware');
  */
 
 // Define Routes
-router.get('/', getAllRequestsController);  // Get all jobs
+router.get('/',authMiddleware, getAllRequestsController);  // Get all jobs
 router.post('/create',authMiddleware, createRequestController);  // Create a new job
 
 /**
