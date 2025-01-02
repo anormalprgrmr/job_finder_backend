@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { signupUser ,verifyUserToken,loginUser } = require('../controllers/auth.controller');
+const { signupUser ,verifyUserToken,loginUser,signupCompany } = require('../controllers/auth.controller');
 
 /**
  * @swagger
@@ -32,7 +32,8 @@ const { signupUser ,verifyUserToken,loginUser } = require('../controllers/auth.c
  *         description: User already exists or invalid data.
  */
 
-router.post('/signup', signupUser);
+router.post('/signup/user', signupUser);
+router.post('/signup/company', signupCompany)
 
 /**
  * @swagger

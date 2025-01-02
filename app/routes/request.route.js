@@ -2,19 +2,21 @@ const express = require('express');
 const router = express.Router();
 const { 
     getAllRequestsController, 
-    createRequestController, 
-} = require('./../controllers/request.controller');
-const authMiddleware = require('../middlewares/auth.middleware');
+    createRequestController,
+    getuserRequestsController,
+    getcompanyRequestsController,
+} = require('./../controllers/request.controller'); // Import the controllers
+const { authenticate, verifyUserType } = require('../middlewares/auth.middleware');
 
 /**
  * @swagger
- * /api/jobs:
+ * /api/requests:
  *   get:
- *     summary: Retrieve all jobs
- *     description: Get a list of all jobs.
+ *     summary: Retrieve all requests
+ *     description: Get a list of all requests.
  *     responses:
  *       200:
- *         description: A list of jobs
+ *         description: A list of requests
  *         content:
  *           application/json:
  *             schema:
@@ -22,21 +24,13 @@ const authMiddleware = require('../middlewares/auth.middleware');
  *               items:
  *                 type: object
  *                 properties:
- *                   title:
+ *                   job_id:
  *                     type: string
- *                   company:
- *                     type: string
- *                   location:
- *                     type: string
- *                   salary:
- *                     type: number
- *                   requirements:
- *                     type: string
- *                   postedBy:
+ *                   user_id:
  *                     type: string
  *   post:
- *     summary: Create a new job
- *     description: Add a new job to the database.
+ *     summary: Create a new request
+ *     description: Add a new request to the database.
  *     requestBody:
  *       required: true
  *       content:
@@ -44,32 +38,72 @@ const authMiddleware = require('../middlewares/auth.middleware');
  *           schema:
  *             type: object
  *             properties:
- *               title:
+ *               job_id:
  *                 type: string
- *               company:
- *                 type: string
- *               location:
- *                 type: string
- *               salary:
- *                 type: number
- *               requirements:
- *                 type: string
- *               postedBy:
+ *               user_id:
  *                 type: string
  *     responses:
  *       201:
- *         description: Job created successfully
+ *         description: Request created successfully
  *       400:
  *         description: Invalid request data
  */
 
-// Define Routes
-router.get('/',authMiddleware, getAllRequestsController);  // Get all jobs
-router.post('/create',authMiddleware, createRequestController);  // Create a new job
+// Route to get all requests
+router.get('/', authenticate, getAllRequestsController);
+
+// Route to create a new request
+router.post('/create', authenticate, verifyUserType(['user']), createRequestController);
 
 /**
  * @swagger
- * /job/hello:
+ * /api/requests/user/{user_id}:
+ *   get:
+ *     summary: Get all requests made by a specific user
+ *     description: Retrieve all requests associated with a specific user.
+ *     parameters:
+ *       - in: path
+ *         name: user_id
+ *         required: true
+ *         description: ID of the user to retrieve requests for
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: List of user requests
+ *       404:
+ *         description: No requests found
+ */
+
+// Route to get all requests made by a specific user
+router.get('/user/:user_id', authenticate, verifyUserType(['user']), getuserRequestsController);
+
+/**
+ * @swagger
+ * /api/requests/company/{company_id}:
+ *   get:
+ *     summary: Get all requests for jobs posted by a specific company
+ *     description: Retrieve all requests associated with jobs posted by a specific company.
+ *     parameters:
+ *       - in: path
+ *         name: company_id
+ *         required: true
+ *         description: ID of the company to retrieve requests for
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: List of company job requests
+ *       404:
+ *         description: No requests found
+ */
+
+// Route to get all requests for a company's jobs
+router.get('/company/:company_id', authenticate, verifyUserType(['company']), getcompanyRequestsController);
+
+/**
+ * @swagger
+ * /api/requests/hello:
  *   get:
  *     summary: Hello World
  *     description: Returns a simple 'hello world' message.
@@ -82,6 +116,8 @@ router.post('/create',authMiddleware, createRequestController);  // Create a new
  *               type: string
  *               example: hello world
  */
+
+// Test route
 router.get('/hello', (req, res) => {
     res.send('hello world');
 });
