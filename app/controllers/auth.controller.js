@@ -1,4 +1,4 @@
-const { signup, verifyToken , login } = require("./../services/auth.service");
+const { signup, verifyToken, login } = require("./../services/auth.service");
 
 const verifyUserToken = (req, res) => {
   const token = req.header("Authorization");
@@ -49,16 +49,14 @@ const loginUser = async (req, res) => {
         .status(400)
         .json({ message: "Please provide email and password" });
     }
-
+    
     const result = await login(email, password);
 
-    res
-      .status(200)
-      .json({
-        message: "Login successful",
-        token: result.token,
-        user: result.user,
-      });
+    res.status(200).json({
+      message: "Login successful",
+      token: result.token,
+      user: result.user,
+    });
   } catch (error) {
     res.status(401).json({ message: error.message });
   }

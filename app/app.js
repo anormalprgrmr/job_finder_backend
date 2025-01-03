@@ -1,5 +1,6 @@
 const express = require('express');
 const connectDB = require('./config/db');
+const cors = require('cors');
 // const jobRoutes = require('./routes/jobRoutes');
 const {getAllJobs} = require('./controllers/job.controller')
 require('dotenv').config();
@@ -12,6 +13,7 @@ const reqRoutes = require('./routes/request.route');
 
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 connectDB();
