@@ -1,6 +1,7 @@
 const companyService = require('../services/company.service');
 
 const createCompany = async (req, res) => {
+    console.trace();
     try {
         const company = await companyService.createCompany(req.body);
         res.status(201).json({ success: true, data: company });

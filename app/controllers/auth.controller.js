@@ -1,4 +1,5 @@
-const { signup, verifyToken, login } = require("./../services/auth.service");
+const { signup, verifyToken , login } = require("./../services/auth.service");
+const companyService = require('../services/company.service');
 
 const verifyUserToken = (req, res) => {
   const token = req.header("Authorization");
@@ -40,6 +41,15 @@ const signupUser = async (req, res) => {
   }
 };
 
+const signupCompany = async (req, res) => {
+  try {
+    const company = await companyService.createCompany(req.body);
+    res.status(201).json({ success: true, data: company });
+} catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+}
+  }
+
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -62,4 +72,4 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { signupUser, verifyUserToken, loginUser };
+module.exports = { signupUser, verifyUserToken, loginUser,signupCompany };

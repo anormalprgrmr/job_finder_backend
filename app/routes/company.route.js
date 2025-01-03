@@ -1,18 +1,18 @@
 const express = require('express');
 const {
-    createCompany,
     getAllCompanies,
     getCompanyById,
     updateCompany,
     deleteCompany
 } = require('../controllers/company.controller');
+const { authenticate, verifyUserType } = require('../middlewares/auth.middleware');
 
 const router = express.Router();
 
-router.post('/', createCompany);       // Create a company
-router.get('/', getAllCompanies);      // Get all companies
-router.get('/:id', getCompanyById);    // Get a single company
-router.put('/:id', updateCompany);     // Update a company
-router.delete('/:id', deleteCompany);  // Delete a company
+// router.post('/',createCompany);       // Create a company
+router.get('/',authenticate, getAllCompanies);      // Get all companies
+router.get('/:id',authenticate, getCompanyById);    // Get a single company
+router.put('/:id',authenticate, verifyUserType(['company']), updateCompany);     // Update a company
+router.delete('/:id', verifyUserType(['company']), deleteCompany);  // Delete a company
 
 module.exports = router;
