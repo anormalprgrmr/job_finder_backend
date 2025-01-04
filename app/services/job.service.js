@@ -1,14 +1,15 @@
 const Job = require("../models/job.model");
 const companyService = require('../services/company.service');
+const mongoose = require('mongoose');
 
-const createJob = async (body) => {
+const createJob = async (compId,title,salary,location) => {
+    console.log('data is : ',compId,title,salary,location);
+    
     const newJob = await Job.create({
-        title: body.title,
-        location: body.location,
-        salary: body.salary,
-        description: body.description,
-        requirements: body.requirements,
-        postedBy: body.postedBy
+        title,
+        location,
+        salary,
+        postedBy: compId
     });
     
 
@@ -18,7 +19,7 @@ const createJob = async (body) => {
     console.log(newJob._id);
 
     
-    const company = await companyService.addJob(body.postedBy,newJob._id)
+    const company = await companyService.addJob(compId,newJob._id)
 
     if(!company){
         return { status: 0, message: 'job addition failed' };
@@ -59,10 +60,19 @@ const deleteJob = async (id) => {
     return { status: 1, message: 'Job deleted successfully' };
 }
 
+const getJobsByPostedBy = async (compId)=>{
+    const objectIdToCompare =new mongoose.Types.ObjectId(compId);
+    console.log(compId);
+    
+    return await Job.find({postedBy:new mongoose.Types.ObjectId(compId)})
+
+}
+
 module.exports = {
     createJob,
     getAllJobs,
     getJobById,
     updateJob,
     deleteJob,
+    getJobsByPostedBy
 };

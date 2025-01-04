@@ -1,9 +1,10 @@
 const companyService = require('../services/company.service');
 
 const createCompany = async (req, res) => {
+    const {name,email,passsword,description,location,website,industry,size} = req.body;
     console.trace();
     try {
-        const company = await companyService.createCompany(req.body);
+        const company = await companyService.createCompany(name,email,passsword,description,location,website,industry,size);
         res.status(201).json({ success: true, data: company });
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });

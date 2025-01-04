@@ -72,14 +72,13 @@ const { authenticate, verifyUserType } = require('../middlewares/auth.middleware
  */
 
 // Define Routes
-router.get('/',authenticate, getAllJobsController);  // Get all jobs
+router.get('/', getAllJobsController);  // Get all jobs
 router.post('/create',authenticate, verifyUserType(['company']), createJobController);  // Create a new job
 router.get('/:id',authenticate, getJobByIdController);  // Get a job by ID
 router.put('/:id',authenticate, verifyUserType(['company']), updateJobController);  // Update a job by ID
 router.delete('/:id',authenticate, verifyUserType(['company']), deleteJobController);  // Delete a job by ID
 router.get('/search',authenticate, verifyUserType(['company']), searchJobsController);  // Search jobs by criteria
 router.get('/pagination', authenticate,getJobsWithPaginationController);  // Paginate jobs
-router.get('/postedBy/:postedBy',authenticate, getJobsByPostedByController);  // Get jobs by postedBy user
 router.get('/salary',authenticate, getJobsBySalaryRangeController);  // Get jobs by salary range
 router.get('/location/:location',authenticate, getJobsByLocationController);  // Get jobs by location
 

@@ -1,12 +1,13 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("./../models/user.model");
+const Company = require("./../models/company.model");
 
 const verifyToken = (token) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('decoded jwt : ',decoded);
-    
+    console.log("decoded jwt : ", decoded);
+
     return { valid: true, decoded };
   } catch (error) {
     return { valid: false, error: error.message };
@@ -30,7 +31,7 @@ const signup = async (name, email, password) => {
 
   // Generate JWT token
   const token = jwt.sign(
-    { userId: newUser._id, email: newUser.email  },
+    { userId: newUser._id, email: newUser.email },
     process.env.JWT_SECRET,
     { expiresIn: "1h" }
   );
@@ -41,7 +42,7 @@ const signup = async (name, email, password) => {
   };
 };
 
-const login = async (email, password) => {
+const loginUserService = async (email, password) => {
   // Check if user exists
   const user = await User.findOne({ email });
   if (!user) {
@@ -56,12 +57,37 @@ const login = async (email, password) => {
 
   // Generate JWT token
   const token = jwt.sign(
-    { userId: user._id, email: user.email  },
+    { userId: user._id, email: user.email },
     process.env.JWT_SECRET,
     { expiresIn: "1h" }
   );
 
-  return { token, user: { id: user._id, name: user.name, email: user.email} };
+  return { token, user: { id: user._id, name: user.name, email: user.email } };
 };
 
-module.exports = { signup, verifyToken, login };
+const loginCompanyService = async (email, password) => {
+  // Check if user exists
+  const company = await Company.findOne({ email : email });
+  console.log('finded company : ',company);
+  
+  // if (!company) {
+  //   throw new Error("company does not exist");
+  // }
+
+  // Compare passwords
+  const isMatch = await bcrypt.compare(password, company.password);
+  if (!isMatch) {
+    throw new Error("Invalid credentials");
+  }
+
+  // Generate JWT token
+  const token = jwt.sign(
+    { companyId: company._id, email: company.email , role: 'company' },
+    process.env.JWT_SECRET,
+    { expiresIn: "1h" }
+  );
+
+  return { token, company: { id: company._id, name: company.name, email: company.email } };
+};
+
+module.exports = { signup, verifyToken, loginUserService, loginCompanyService };

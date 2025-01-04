@@ -13,8 +13,10 @@ const {
 
 const createJobController = async (req, res, next) => {
     try {
-        const body = req.body;
-        const response = await createJob(body);  // Call the service function
+        const {title,salary,location} = req.body;
+        const compId = req.user.companyId;
+
+        const response = await createJob(compId,title,salary,location);  // Call the service function
         if (response.status === 0) {
             return res.status(400).json(response);
         }
@@ -106,9 +108,13 @@ const getJobsWithPaginationController = async (req, res, next) => {
 
 // Get jobs posted by a specific user
 const getJobsByPostedByController = async (req, res, next) => {
+    console.log('innnn');
+    
     try {
-        const { postedBy } = req.params;  // Get the 'postedBy' user from URL params
-        const response = await getJobsByPostedBy(postedBy);  // Call the service function
+        console.log('req.user : ',req.user);
+        
+        const compId = req.user.companyId;  // Get the 'postedBy' user from URL params
+        const response = await getJobsByPostedBy(compId);  // Call the service function
         if (response.status === 0) {
             return res.status(404).json(response);
         }

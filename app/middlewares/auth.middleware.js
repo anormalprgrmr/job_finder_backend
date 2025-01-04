@@ -9,6 +9,8 @@ const authenticate = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log('decoded token is : ',decoded);
+    
     req.user = decoded; // Add decoded token data to the request
     next();
   } catch (error) {
@@ -18,7 +20,7 @@ const authenticate = (req, res, next) => {
 
 const verifyUserType = (types) => {
   return (req, res, next) => {
-    if (!types.includes(req.user.type)) {
+    if (!types.includes(req.user.role)) {
       return res.status(403).json({ message: 'Access denied' });
     }
     next();
